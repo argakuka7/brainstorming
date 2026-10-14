@@ -1,13 +1,14 @@
 {
-  "name": "brainstorming",
-  "version": "1.0.0",
-  "description": "Find out what your human partner actually wants, and why, before anything gets built. A port of the Superpowers brainstorming skill for pi, ZCode, and OpenCode.",
+  "name": "obra-skills",
+  "version": "1.1.0",
+  "description": "Superpowers skills ported to pi, ZCode, and OpenCode: brainstorming (what does your human partner actually want?) and systematic-debugging (no fixes without root cause).",
   "type": "module",
   "license": "MIT",
   "keywords": [
     "pi-package",
     "skills",
     "brainstorming",
+    "systematic-debugging",
     "zcode",
     "opencode"
   ],

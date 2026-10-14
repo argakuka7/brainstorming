@@ -1,29 +1,49 @@
 #!/usr/bin/env bash
-# Link the brainstorming skill into every harness found on this machine.
+# Link the skills in this repo into every harness found on this machine.
 #
-# Usage: ./install.sh [--force]
+# Usage: ./install.sh [--force] [skill ...]
+#
+#   ./install.sh                      # every skill, every harness
+#   ./install.sh systematic-debugging # just one skill
+#   ./install.sh --force              # replace entries that already exist
 #
 # Targets (skipped when the parent harness directory does not exist):
-#   pi        ~/.pi/agent/skills/brainstorming
-#   ZCode     ~/.zcode/skills/brainstorming
-#   OpenCode  ~/.config/opencode/skills/brainstorming
-#   shared    ~/.agents/skills/brainstorming   (read by several agents)
+#   pi        ~/.pi/agent/skills/<skill>
+#   ZCode     ~/.zcode/skills/<skill>
+#   OpenCode  ~/.config/opencode/skills/<skill>
+#   shared    ~/.agents/skills/<skill>   (read by several agents)
 
 set -euo pipefail
 
 FORCE="false"
-[[ "${1:-}" == "--force" ]] && FORCE="true"
+WANTED=()
+for arg in "$@"; do
+  case "$arg" in
+    --force) FORCE="true" ;;
+    -*) echo "error: unknown option $arg" >&2; exit 1 ;;
+    *) WANTED+=("$arg") ;;
+  esac
+done
 
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
-SOURCE="${REPO_DIR}/skills/brainstorming"
+SKILLS_DIR="${REPO_DIR}/skills"
 
-if [[ ! -f "${SOURCE}/SKILL.md" ]]; then
-  echo "error: ${SOURCE}/SKILL.md not found" >&2
-  exit 1
+if [[ ${#WANTED[@]} -eq 0 ]]; then
+  for dir in "$SKILLS_DIR"/*/; do
+    [[ -f "${dir}SKILL.md" ]] || continue
+    WANTED+=("$(basename "$dir")")
+  done
 fi
 
+TARGET_ROOTS=(
+  "${HOME}/.pi/agent/skills"
+  "${HOME}/.zcode/skills"
+  "${HOME}/.config/opencode/skills"
+  "${HOME}/.agents/skills"
+)
+
 link() {
-  local target="$1" parent
+  local source="$1" target="$2" parent
   parent="$(dirname "$target")"
 
   if [[ ! -d "$parent" ]]; then
@@ -32,7 +52,7 @@ link() {
   fi
 
   if [[ -L "$target" ]]; then
-    if [[ "$(readlink "$target")" == "$SOURCE" ]]; then
+    if [[ "$(readlink "$target")" == "$source" ]]; then
       echo "ok      ${target}  (already linked)"
       return 0
     fi
@@ -50,15 +70,23 @@ link() {
     echo "backed  ${target} -> ${target}.bak-*"
   fi
 
-  ln -s "$SOURCE" "$target"
+  ln -s "$source" "$target"
   echo "linked  ${target}"
 }
 
-echo "source  ${SOURCE}"
-echo
-link "${HOME}/.pi/agent/skills/brainstorming"
-link "${HOME}/.zcode/skills/brainstorming"
-link "${HOME}/.config/opencode/skills/brainstorming"
-link "${HOME}/.agents/skills/brainstorming"
-echo
-echo "done. Ask your agent to brainstorm something and check it opens with one question."
+for skill in "${WANTED[@]}"; do
+  source="${SKILLS_DIR}/${skill}"
+  if [[ ! -f "${source}/SKILL.md" ]]; then
+    echo "error: no skill named '${skill}' in ${SKILLS_DIR}" >&2
+    exit 1
+  fi
+
+  echo "== ${skill}"
+  echo "   source  ${source}"
+  for root in "${TARGET_ROOTS[@]}"; do
+    link "$source" "${root}/${skill}"
+  done
+  echo
+done
+
+echo "done. Ask your agent to brainstorm something, or to debug a failing test."

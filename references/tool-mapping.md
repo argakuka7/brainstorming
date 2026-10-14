@@ -1,8 +1,8 @@
 # Tool mapping: pi / ZCode / OpenCode
 
-The skill names *actions*, never tools. This file translates those actions
-into the real tool names on the three harnesses this port targets. Load it
-only when a tool name actually matters.
+Shared by every skill in this repo. The skills name *actions*, never tools.
+This file translates those actions into the real tool names on the three
+harnesses this port targets. Load it only when a tool name actually matters.
 
 ## Skills
 

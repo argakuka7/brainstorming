@@ -228,8 +228,8 @@ starting the server.
 ## Running on pi, ZCode, and OpenCode
 
 This skill is harness-neutral: it names actions, not tools. Translate them
-per harness, and read `references/tool-mapping.md` in this directory when a
-tool name matters. The short version:
+per harness, and read the port's shared table at `references/tool-mapping.md`
+in the repo root when a tool name matters. The short version:
 
 - **Dispatch a subagent** (the builder check). pi: the `subagent` tool from
   `pi-subagents`, or `remote_subagent`. ZCode: its task/agent tool. OpenCode:
