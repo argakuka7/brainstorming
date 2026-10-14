@@ -1,0 +1,19 @@
+{
+  "name": "brainstorming",
+  "version": "1.0.0",
+  "description": "Find out what your human partner actually wants, and why, before anything gets built. A port of the Superpowers brainstorming skill for pi, ZCode, and OpenCode.",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "pi-package",
+    "skills",
+    "brainstorming",
+    "zcode",
+    "opencode"
+  ],
+  "pi": {
+    "skills": [
+      "./skills"
+    ]
+  }
+}
