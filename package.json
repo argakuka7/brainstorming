@@ -1,7 +1,7 @@
 {
   "name": "obra-skills",
-  "version": "1.1.0",
-  "description": "Superpowers skills ported to pi, ZCode, and OpenCode: brainstorming (what does your human partner actually want?) and systematic-debugging (no fixes without root cause).",
+  "version": "1.2.0",
+  "description": "Agent skills ported to pi, ZCode, and OpenCode: brainstorming (what does your human partner actually want?), systematic-debugging (no fixes without root cause), and handoff (compact a conversation for the next agent).",
   "type": "module",
   "license": "MIT",
   "keywords": [
@@ -9,6 +9,7 @@
     "skills",
     "brainstorming",
     "systematic-debugging",
+    "handoff",
     "zcode",
     "opencode"
   ],

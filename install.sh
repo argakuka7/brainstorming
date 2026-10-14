@@ -89,4 +89,4 @@ for skill in "${WANTED[@]}"; do
   echo
 done
 
-echo "done. Ask your agent to brainstorm something, or to debug a failing test."
+echo "done. Try brainstorming something, hand your agent a failing test, or run /skill:handoff."
